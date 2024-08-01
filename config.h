@@ -1,5 +1,9 @@
 /* See LICENSE file for copyright and license details. */
 
+/* Multimedia keys. */
+#include <X11/XF86keysym.h>
+#include <X11/keysymdef.h>
+
 /* appearance */
 static const unsigned int borderpx  = 0;       /* border pixel of windows */
 static const unsigned int snap      = 4;       /* snap pixel */
@@ -85,12 +89,28 @@ static const char *dmenucmd[] = { "dmenu_run", "-m", dmenumon, "-fn", dmenufont,
                                   NULL };
 static const char *termcmd[]  = { "urxvt", NULL };
 static const char *emacscmd[] = { "emacsclient", "-c", "-a", "emacs", NULL };
+static const char maimselectioncmd[] = { "maim -s -u ~/screenshots/$(date +%s).png"
+                                        " | xclip -selection clipboard -t image/png -i" };
+static const char maimcmd[] = { "maim ~/screenshots/$(date +%s).png" };
+static const char *up_vol[]   = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "+4%",   NULL };
+static const char *down_vol[] = { "pactl", "set-sink-volume", "@DEFAULT_SINK@", "-4%",   NULL };
+static const char *mute_vol[] = { "pactl", "set-sink-mute",   "@DEFAULT_SINK@", "toggle", NULL };
+static const char *layout_us[] = { "setxkbmap", "-layout", "us", NULL };
+static const char *layout_latam[] = { "setxkbmap", "-layout", "latam", NULL };
 
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_s,      spawn,          {.v = dmenucmd } },
 	{ MODKEY,                       XK_t,      spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_e,      spawn,          {.v = emacscmd } },
+    { ControlMask|ShiftMask,        XK_s,      spawn,          SHCMD(maimselectioncmd) },
+    { 0,                            XK_Print,  spawn,          SHCMD(maimcmd) },
+    { 0,                            XF86XK_AudioMute,        spawn, {.v = mute_vol } },
+    { 0,                            XF86XK_AudioLowerVolume, spawn, {.v = down_vol } },
+    { 0,                            XF86XK_AudioRaiseVolume, spawn, {.v = up_vol } },
+    { 0,                            XK_F9,     spawn,          {.v = layout_us } },
+    { 0,                            XK_F10,    spawn,          {.v = layout_latam } },
+
 	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_Tab,    focusstack,     {.i = +1 } },
 	/* { MODKEY,                       XK_k,      focusstack,     {.i = -1 } }, */

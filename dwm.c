@@ -1134,8 +1134,8 @@ manage(Window w, XWindowAttributes *wa)
         }
 
         /* Center floating window. */
-        c->w = c->mon->mw * 0.75;
-        c->h = c->mon->mh * 0.75;
+        c->w = ((c->w > c->mon->mw) || c->w < (c->mon->mw/4)) ? c->mon->mw * 0.75 : c->w;
+        c->h = ((c->h > c->mon->mh) || c->h < (c->mon->mh/4)) ? c->mon->mh * 0.75 : c->h;
 
         if (c->x + WIDTH(c) > c->mon->wx + c->mon->ww)
                 c->x = c->mon->wx + c->mon->ww - WIDTH(c);
@@ -1153,9 +1153,9 @@ manage(Window w, XWindowAttributes *wa)
         updatesizehints(c);
         updatewmhints(c);
 
-        /* Center floating window. */
-        c->x = c->mon->mw - c->w - (c->mon->mw - c->w)/2;
-        c->y = c->mon->mh - c->h - (c->mon->mh - c->h)/2;
+        /* Center floating window on its monitor. */
+        c->x = c->mon->mx + (c->mon->mw - WIDTH(c)) / 2;
+        c->y = c->mon->my + (c->mon->mh - c->h) / 2;
 
         XSelectInput(dpy, w, EnterWindowMask|FocusChangeMask|PropertyChangeMask|StructureNotifyMask);
         grabbuttons(c, 0);
