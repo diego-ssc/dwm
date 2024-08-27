@@ -811,19 +811,17 @@ drawbar(Monitor *m)
         drw_setscheme(drw, scheme[SchemeNorm]);
         drw_rect(drw, x, 0, w - x - (2 * sp), bh, 1, 1);
 
-        if (m == selmon) { /* Status is only drawn on selected monitor. */
-                rstext = strdup(stext);
-                if (splitstatus) {
-                        mstext = strsep(&rstext, splitdelim);
-                        /* x position of middle status text. */
-                        msx = (m->ww - TEXTW(mstext)) / 2;
-                        drw_setscheme(drw, scheme[SchemeNorm]);
-                        drw_text(drw, msx, 0, TEXTW(mstext) - lrpad, bh, 0,
-                                 mstext, 0);
-                }
-                tw  = TEXTW(rstext) - lrpad + 2; /* 2px right padding. */
-                drw_text(drw, m->ww - tw - 2 * sp, 0, tw, bh, 0, rstext, 0);
+        rstext = strdup(stext);
+        if (splitstatus) {
+                mstext = strsep(&rstext, splitdelim);
+                /* x position of middle status text. */
+                msx = (m->ww - TEXTW(mstext)) / 2;
+                drw_setscheme(drw, scheme[SchemeNorm]);
+                drw_text(drw, msx, 0, TEXTW(mstext) - lrpad, bh, 0,
+                         mstext, 0);
         }
+        tw  = TEXTW(rstext) - lrpad + 2; /* 2px right padding. */
+        drw_text(drw, m->ww - tw - 2 * sp, 0, tw, bh, 0, rstext, 0);
 
         drw_map(drw, m->barwin, 0, 0, m->ww, bh);
 }
@@ -1872,7 +1870,7 @@ togglefloating(const Arg *arg)
                 return;
         if (selmon->sel->isfullscreen) /* no support for fullscreen windows */
                 return;
-        
+
         selmon->sel->isfloating = !selmon->sel->isfloating || selmon->sel->isfixed;
         if (selmon->sel->isfloating)
                 resize(selmon->sel, selmon->sel->x, selmon->sel->y,

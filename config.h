@@ -11,7 +11,7 @@ static const int showbar            = 1;       /* 0 means no bar */
 static const int topbar             = 1;       /* 0 means bottom bar */
 static const char *fonts[]          = { "roboto:size=9" };
 static const char dmenufont[]       = "monospace:size=9";
-static const char col_gray1[]       = "gray10";//"#0f0f0f";
+static const char col_gray1[]       = "gray12";//"gray10";//"#0f0f0f";
 static const char col_gray2[]       = "#444444";
 static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
@@ -30,7 +30,7 @@ static const int sidepad            = 10;      /* Horizontal padding of bar. */
 static const unsigned int gappx     = 10;      /* Gaps between windows. */
 
 /* tagging */
-static const char *tags[] = { "1", "2", "3", "4", "5", "6", "7", "8", "9" };
+static const char *tags[] = { "1", "2", "3", "4", "5", "6" };
 /* static const char *tags[] = { "一", "二", "三", "四", "五", "六", "七", "八", "九" }; */
 
 
